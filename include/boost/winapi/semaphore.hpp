@@ -137,7 +137,12 @@ BOOST_FORCEINLINE HANDLE_ CreateSemaphoreW(SECURITY_ATTRIBUTES_* lpSemaphoreAttr
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
 BOOST_FORCEINLINE HANDLE_ CreateSemaphoreExW(SECURITY_ATTRIBUTES_* lpSemaphoreAttributes, LONG_ lInitialCount, LONG_ lMaximumCount, LPCWSTR_ lpName, DWORD_ dwFlags, DWORD_ dwDesiredAccess)
 {
+#if !defined(UNDER_CE)
     return ::CreateSemaphoreExW(reinterpret_cast< ::_SECURITY_ATTRIBUTES* >(lpSemaphoreAttributes), lInitialCount, lMaximumCount, lpName, dwFlags, dwDesiredAccess);
+#else
+    // MSDN: Windows CE does not implement the OpenSemaphore. Use the CreateSemaphore function to open a semaphore.
+    return ::CreateSemaphore(reinterpret_cast< ::_SECURITY_ATTRIBUTES* >(lpSemaphoreAttributes), lInitialCount, lMaximumCount, lpName);
+#endif
 }
 #endif
 
@@ -171,12 +176,15 @@ BOOST_FORCEINLINE HANDLE_ open_semaphore(DWORD_ dwDesiredAccess, BOOL_ bInheritH
 }
 #endif // !defined( BOOST_NO_ANSI_APIS )
 
+#if !defined(UNDER_CE)
+// MSDN: Windows CE does not implement the OpenSemaphore. Use the CreateSemaphore function to open a semaphore.
 using ::OpenSemaphoreW;
 
 BOOST_FORCEINLINE HANDLE_ open_semaphore(DWORD_ dwDesiredAccess, BOOL_ bInheritHandle, LPCWSTR_ lpName)
 {
     return ::OpenSemaphoreW(dwDesiredAccess, bInheritHandle, lpName);
 }
+#endif
 
 #endif // BOOST_WINAPI_PARTITION_DESKTOP_SYSTEM
 

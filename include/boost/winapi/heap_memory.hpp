@@ -64,7 +64,9 @@ namespace boost {
 namespace winapi {
 
 #if BOOST_WINAPI_PARTITION_DESKTOP_SYSTEM
+#if !defined(UNDER_CE)
 using ::GetProcessHeaps;
+#endif
 #endif
 
 using ::GetProcessHeap;

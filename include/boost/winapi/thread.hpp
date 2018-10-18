@@ -32,9 +32,11 @@ BOOST_SYMBOL_IMPORT boost::winapi::BOOL_ WINAPI SwitchToThread(BOOST_WINAPI_DETA
 
 namespace boost {
 namespace winapi {
-using ::SleepEx;
 using ::Sleep;
+#if !defined(UNDER_CE)
+using ::SleepEx;
 using ::SwitchToThread;
+#endif
 }
 }
 

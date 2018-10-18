@@ -58,11 +58,13 @@
 
 // under Windows CE we still have old-style Interlocked* functions
 
-extern "C" long __cdecl InterlockedIncrement( long volatile* );
-extern "C" long __cdecl InterlockedDecrement( long volatile* );
-extern "C" long __cdecl InterlockedCompareExchange( long volatile*, long, long );
-extern "C" long __cdecl InterlockedExchange( long volatile*, long );
-extern "C" long __cdecl InterlockedExchangeAdd( long volatile*, long );
+#ifndef _WINBASE_
+extern "C" long __cdecl InterlockedIncrement( long volatile * );
+extern "C" long __cdecl InterlockedDecrement( long volatile * );
+extern "C" long __cdecl InterlockedCompareExchange( long volatile *, long, long );
+extern "C" long __cdecl InterlockedExchange( long volatile *, long );
+extern "C" long __cdecl InterlockedExchangeAdd( long volatile *, long );
+#endif
 
 # define BOOST_INTERLOCKED_INCREMENT InterlockedIncrement
 # define BOOST_INTERLOCKED_DECREMENT InterlockedDecrement

@@ -88,7 +88,14 @@ typedef struct BOOST_MAY_ALIAS _SYSTEMTIME {
 #if BOOST_WINAPI_PARTITION_DESKTOP_SYSTEM
 using ::GetTickCount;
 #endif
-#if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
+/* Patched: the original definition in Boost 1.60, 1.65.1:
+ *   #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_WIN6
+ * caused a compilation error for CE6 (-D_WIN32_WCE=0x600), and not for WM6 (-D_WIN32_WCE=0x501):
+ *     error C2039: 'GetTickCount64' : is not a member of '`global namespace''"
+ * The original definition in Boost 1.67.0 caused a compilation error for WM6 as well.
+ * There was no such error in Boost 1.59.
+ */
+#if BOOST_USE_WINAPI_VERSION > BOOST_WINAPI_VERSION_WIN6
 using ::GetTickCount64;
 #endif
 
@@ -126,6 +133,7 @@ BOOST_FORCEINLINE VOID_ GetSystemTimeAsFileTime(LPFILETIME_ lpSystemTimeAsFileTi
 }
 #else
 // Windows CE does not define GetSystemTimeAsFileTime
+BOOST_FORCEINLINE BOOL_ SystemTimeToFileTime(const SYSTEMTIME_* lpSystemTime, FILETIME_* lpFileTime);  // Forward declaration fixes a compilation error
 BOOST_FORCEINLINE VOID_ GetSystemTimeAsFileTime(FILETIME_* lpFileTime)
 {
     boost::winapi::SYSTEMTIME_ st;

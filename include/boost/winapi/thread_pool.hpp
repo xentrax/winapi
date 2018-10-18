@@ -59,14 +59,18 @@ namespace winapi {
 
 #if BOOST_WINAPI_PARTITION_DESKTOP
 typedef ::WAITORTIMERCALLBACKFUNC WAITORTIMERCALLBACKFUNC_;
+#if !defined(UNDER_CE)
 typedef ::WAITORTIMERCALLBACK WAITORTIMERCALLBACK_;
 
 using ::RegisterWaitForSingleObject;
 using ::UnregisterWait;
 #endif
+#endif
 
 #if BOOST_WINAPI_PARTITION_DESKTOP || BOOST_WINAPI_PARTITION_SYSTEM
+#if !defined(UNDER_CE)
 using ::UnregisterWaitEx;
+#endif
 #endif
 #if defined( BOOST_USE_WINDOWS_H )
 
@@ -78,16 +82,21 @@ const ULONG_ WT_EXECUTEINUITHREAD_ = 0x00000002;
 const ULONG_ WT_EXECUTEINUITHREAD_ = WT_EXECUTEINUITHREAD;
 #endif
 const ULONG_ WT_EXECUTEINWAITTHREAD_ = WT_EXECUTEINWAITTHREAD;
+#if !defined(UNDER_CE)
 const ULONG_ WT_EXECUTEONLYONCE_ = WT_EXECUTEONLYONCE;
 const ULONG_ WT_EXECUTEINTIMERTHREAD_ = WT_EXECUTEINTIMERTHREAD;
 const ULONG_ WT_EXECUTELONGFUNCTION_ = WT_EXECUTELONGFUNCTION;
+#endif
 #if defined( BOOST_WINAPI_IS_MINGW )
 const ULONG_ WT_EXECUTEINPERSISTENTIOTHREAD_ = 0x00000040;
+#elif defined(UNDER_CE)
 #else
 const ULONG_ WT_EXECUTEINPERSISTENTIOTHREAD_ = WT_EXECUTEINPERSISTENTIOTHREAD;
 #endif
+#if !defined(UNDER_CE)
 const ULONG_ WT_EXECUTEINPERSISTENTTHREAD_ = WT_EXECUTEINPERSISTENTTHREAD;
 const ULONG_ WT_TRANSFER_IMPERSONATION_ = WT_TRANSFER_IMPERSONATION;
+#endif
 
 #else // defined( BOOST_USE_WINDOWS_H )
 
@@ -115,12 +124,14 @@ const ULONG_ wt_execute_default = WT_EXECUTEDEFAULT_;
 const ULONG_ wt_execute_in_io_thread = WT_EXECUTEINIOTHREAD_;
 const ULONG_ wt_execute_in_ui_thread = WT_EXECUTEINUITHREAD_;
 const ULONG_ wt_execute_in_wait_thread = WT_EXECUTEINWAITTHREAD_;
+#if !defined(UNDER_CE)
 const ULONG_ wt_execute_only_once = WT_EXECUTEONLYONCE_;
 const ULONG_ wt_execute_in_timer_thread = WT_EXECUTEINTIMERTHREAD_;
 const ULONG_ wt_execute_long_function = WT_EXECUTELONGFUNCTION_;
 const ULONG_ wt_execute_in_persistent_io_thread = WT_EXECUTEINPERSISTENTIOTHREAD_;
 const ULONG_ wt_execute_in_persistent_thread = WT_EXECUTEINPERSISTENTTHREAD_;
 const ULONG_ wt_transfer_impersonation = WT_TRANSFER_IMPERSONATION_;
+#endif
 
 }
 }

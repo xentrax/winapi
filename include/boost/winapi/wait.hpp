@@ -67,17 +67,26 @@ namespace boost {
 namespace winapi {
 
 #if BOOST_WINAPI_PARTITION_APP || BOOST_WINAPI_PARTITION_SYSTEM
+#if !defined(UNDER_CE)
 using ::WaitForSingleObjectEx;
+#else
+using ::WaitForSingleObject;
+#endif
 #endif
 #if BOOST_WINAPI_PARTITION_DESKTOP || BOOST_WINAPI_PARTITION_SYSTEM
 #if BOOST_USE_WINAPI_VERSION >= BOOST_WINAPI_VERSION_NT4
+#if !defined(UNDER_CE)
 using ::SignalObjectAndWait;
 #endif
 #endif
+#endif
+
 
 #if BOOST_WINAPI_PARTITION_APP_SYSTEM
 using ::WaitForMultipleObjects;
+#if !defined(UNDER_CE)
 using ::WaitForMultipleObjectsEx;
+#endif
 using ::WaitForSingleObject;
 #endif
 
